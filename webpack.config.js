@@ -1,31 +1,6 @@
 const webpack = require('webpack');
-const path = require('path');
-const htmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-
-const entry = {
-  app: path.join(__dirname, './index.js'),
-  vendor: ['lodash', 'moment'],
-  react: ['react', 'react-dom', 'react-redux', 'redux'],
-}
-const output = {
-  path: path.resolve(__dirname, 'dist'),
-  filename: '[name].js',
-}
-const imageRule = {
-  test: /\.(png|gif|jpg)$/,
-  use: [
-    {
-      loader: 'url-loader',
-      options: { limit: 8192 },
-    },
-  ]
-}
-const jsRule = {
-  test: /\.(js|jsx)$/,
-  exclude: /node_modules/,
-  use: 'babel-loader',
-}
+const config = require('./webpack.base.config');
 const cssLoader = {
   test: /\.css$/,
   use: ExtractTextPlugin.extract({
@@ -64,28 +39,15 @@ const sassLoader = {
     ]
   }),
 }
-
-const rules = [
-  imageRule,
-  jsRule,
-  cssLoader,
-  sassLoader,
-];
-const plugins = [
-  new htmlWebpackPlugin({
-    template: path.join(__dirname, 'index.html'),
+config.module.rules.push(cssLoader, sassLoader);
+config.plugins.push(
+  new webpack.DefinePlugin({
+    'process.env': {
+      'NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'production')
+    }
   }),
-  new ExtractTextPlugin('app.css'),
-  new webpack.optimize.CommonsChunkPlugin({
-    names: ['react', 'vendor']
-  })
-]
-module.exports = {
-  entry,
-  output,
-  module: {
-    rules,
-  },
-  devtool: 'inline-source-map',
-  plugins,
-}
+  new ExtractTextPlugin({filename: '[name].css', allChunks: true}),
+);
+
+module.exports = config;
+
