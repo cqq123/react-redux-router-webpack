@@ -1,5 +1,12 @@
 const webpack = require('webpack');
+const path = require('path');
 const config = require('./webpack.base.config');
+const APP_ENTRY = './index.js';
+config.entry = {
+  app: [APP_ENTRY, 'webpack-hot-middleware/client'],
+  vendor: ['lodash', 'moment'],
+  react: ['react', 'react-dom', 'react-redux', 'redux'],
+}
 
 const cssLoader = {
   test: /\.css$/,

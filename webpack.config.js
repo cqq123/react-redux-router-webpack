@@ -1,6 +1,13 @@
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const path = require('path');
 const config = require('./webpack.base.config');
+
+config.entry = {
+  app: path.join(__dirname, 'index.js'),
+  vendor: ['lodash', 'moment'],
+  react: ['react', 'react-dom', 'react-redux', 'redux'],
+}
 const cssLoader = {
   test: /\.css$/,
   use: ExtractTextPlugin.extract({
@@ -47,6 +54,7 @@ config.plugins.push(
     }
   }),
   new ExtractTextPlugin({filename: '[name].css', allChunks: true}),
+  new webpack.optimize.UglifyJsPlugin(),
 );
 
 module.exports = config;
