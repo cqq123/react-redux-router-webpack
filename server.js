@@ -6,6 +6,7 @@ const isPro = process.env.NODE_ENV === 'production';
 const webpackConfig = require('./webpack.dev.config');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
+
 const HTML_FILE = path.join(__dirname, 'dist', 'index.html');
 const app = express();
 const compiler = webpack(webpackConfig);

@@ -6,7 +6,6 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].js',
-    publicPath: '/'
   },
   module: {
     rules: [
@@ -22,16 +21,17 @@ module.exports = {
             loader: 'url-loader',
             options: { limit: 8192 },
           },
-        ]
-      }
-    ]
+        ],
+      },
+    ],
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.join(__dirname, 'index.html'),
+      template: path.join(__dirname, 'src/index.html'),
     }),
     new webpack.optimize.CommonsChunkPlugin({
-      names: ['react', 'vendor']
+      names: ['react', 'vendor'],
     }),
-  ]
-}
+  ],
+};
+

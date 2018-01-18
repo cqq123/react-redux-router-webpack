@@ -1,12 +1,13 @@
 const webpack = require('webpack');
 const path = require('path');
 const config = require('./webpack.base.config');
-const APP_ENTRY = './index.js';
+
+const APP_ENTRY = './src/index.js';
 config.entry = {
   app: [APP_ENTRY, 'webpack-hot-middleware/client'],
   vendor: ['lodash', 'moment'],
   react: ['react', 'react-dom', 'react-redux', 'redux'],
-}
+};
 
 const cssLoader = {
   test: /\.css$/,
@@ -16,11 +17,12 @@ const cssLoader = {
     {
       loader: 'postcss-loader',
       options: {
-        plugins: () => [require('autoprefixer')]
+        plugins: () => [require('autoprefixer')],
       },
     },
   ],
-}
+};
+
 const sassLoader = {
   test: /\.scss$/,
   use: [
@@ -29,7 +31,7 @@ const sassLoader = {
       loader: 'css-loader',
       options: {
         modules: true,
-        localIdentName: '[path][name]_[local]--[hash:base64:5]'
+        localIdentName: '[path][name]_[local]--[hash:base64:5]',
       },
     },
     {
@@ -38,18 +40,16 @@ const sassLoader = {
         plugins: () => [require('autoprefixer')],
       },
     },
-  ]
-}
+  ],
+};
 
-config.module.rules.push(
-  cssLoader, sassLoader
-);
+config.module.rules.push(cssLoader, sassLoader);
 config.devtool = 'inline-source-map';
 config.plugins.push(new webpack.DefinePlugin({
   'process.env': {
-    'NODE_ENV': JSON.stringify('development')
-  }
-}))
+    NODE_ENV: JSON.stringify('development'),
+  },
+}));
 config.plugins.push(new webpack.HotModuleReplacementPlugin());
 
 module.exports = config;
