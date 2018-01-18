@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Route, NavLink, Link } from 'react-router-dom';
+import { BrowserRouter, Route, NavLink } from 'react-router-dom';
 import './index.css';
 import Taxi from './scenes/Taxi';
 import Bus from './scenes/Bus';
