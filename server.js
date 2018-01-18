@@ -2,16 +2,18 @@ const express = require('express');
 const request = require('request');
 const path = require('path');
 const webpack = require('webpack');
+const isPro = process.env.NODE_ENV === 'production';
+console.log(isPro, '=====================');
+const webpackConfig = isPro ? require('./webpack.config') : require('./webpack.dev.config');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
-
-const compiler = webpack(require('./webpack.config'));
 const HTML_FILE = path.join(__dirname, 'dist', 'index.html');
-
 const app = express();
-
+const compiler = webpack(webpackConfig);
 app.use(webpackDevMiddleware(compiler));
-app.use(webpackHotMiddleware(compiler));
+if (!isPro) {
+  app.use(webpackHotMiddleware(compiler));
+}
 app.get('*', (req, res, next) => {
   compiler.outputFileSystem.readFile(HTML_FILE, (err, result) => {
     res.set('content-type', 'text-html');
