@@ -17,8 +17,13 @@ app.use(webpackHotMiddleware(compiler));
 const pathKey = Object.keys(configPath);
 for (let i = 0; i < pathKey.length; i++) {
   app.use(pathKey[i], (req, res) => {
-    const url = `${configPath[pathKey[i]]}${pathKey[i]}${req.url}`;
-    req.pipe(request(url)).pipe(res);
+    if (configPath[pathKey[i]].indexOf('http:') !== -1) {
+      const url = `${configPath[pathKey[i]]}${pathKey[i]}${req.url}`;
+      req.pipe(request(url)).pipe(res);
+    } else {
+      const data = require(configPath[pathKey[i]]);
+      res.send(data);
+    }
   });
 }
 

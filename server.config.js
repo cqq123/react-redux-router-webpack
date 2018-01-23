@@ -3,5 +3,6 @@ module.exports = {
   paths: {
     '/base/distance': api,
     '/base/distance2metro': api,
+    '/base/distance2': './data/aa.json',
   },
 };
