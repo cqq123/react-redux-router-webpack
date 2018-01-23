@@ -15,7 +15,7 @@ const App = () => (
         <NavLink to="bicycle" key="bicycle" className={style.navTitle}>Bicycle</NavLink>
       </div>
       <div>
-        <Route exact path="/" component={Taxi} />
+        <Route exact path="/" component={Bicycle} />
         <Route exact path="/taxi" component={Taxi} />
         <Route exact path="/bus" component={Bus} />
         <Route exact path="/bicycle" component={Bicycle} />

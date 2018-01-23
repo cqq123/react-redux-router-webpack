@@ -27,6 +27,13 @@ module.exports = {
       },
     ],
   },
+  resolve: {
+    modules: [
+      path.join(__dirname),
+      path.join(__dirname, 'src'),
+      'node_modules',
+    ],
+  },
   plugins: [
     new HtmlWebpackPlugin({
       template: path.join(__dirname, 'src/index.html'),

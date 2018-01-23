@@ -2,8 +2,8 @@ const express = require('express');
 const request = require('request');
 const path = require('path');
 const webpack = require('webpack');
-const isPro = process.env.NODE_ENV === 'production';
 const webpackConfig = require('./webpack.dev.config');
+const configPath = require('./server.config').paths;
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 
@@ -14,13 +14,22 @@ app.use(webpackDevMiddleware(compiler, {
   publicPath: webpackConfig.output.publicPath,
 }));
 app.use(webpackHotMiddleware(compiler));
-app.get('*', (req, res, next) => {
+const pathKey = Object.keys(configPath);
+for (let i = 0; i < pathKey.length; i++) {
+  app.use(pathKey[i], (req, res) => {
+    const url = `${configPath[pathKey[i]]}${pathKey[i]}${req.url}`;
+    req.pipe(request(url)).pipe(res);
+  });
+}
+
+app.get('*', (req, res) => {
   compiler.outputFileSystem.readFile(HTML_FILE, (err, result) => {
     res.set('content-type', 'text-html');
     res.send(result);
     res.end();
   });
 });
+
 app.listen(3003, () => {
   console.log('app server in 3003');
 });
