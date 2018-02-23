@@ -40,6 +40,7 @@ const sassLoader = {
         plugins: () => [require('autoprefixer')],
       },
     },
+    'sass-loader'
   ],
 };
 
